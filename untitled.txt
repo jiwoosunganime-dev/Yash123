@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Songs Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        header {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+        }
+        .song-list {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .song-item {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        form {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Songs Website</h1>
+        <p>Discover and share your favorite tunes!</p>
+    </header>
+
+    <div class="song-list" id="songList">
+        <!-- Sample songs -->
+        <div class="song-item">
+            <div>
+                <h3>Song Title 1</h3>
+                <p>Artist: Artist Name</p>
+            </div>
+            <button onclick="playSong('song1.mp3')">Play</button>
+        </div>
+        <div class="song-item">
+            <div>
+                <h3>Song Title 2</h3>
+                <p>Artist: Another Artist</p>
+            </div>
+            <button onclick="playSong('song2.mp3')">Play</button>
+        </div>
+    </div>
+
+    <form id="addSongForm">
+        <h2>Add a New Song</h2>
+        <input type="text" id="songTitle" placeholder="Song Title" required>
+        <input type="text" id="artist" placeholder="Artist" required>
+        <input type="file" id="audioFile" accept="audio/*" required>
+        <button type="submit">Add Song</button>
+    </form>
+
+    <audio id="audioPlayer" controls style="display:none;"></audio>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const songList = document.getElementById('songList');
+        const addSongForm = document.getElementById('addSongForm');
+
+        function playSong(src) {
+            audioPlayer.src = src;
+            audioPlayer.play();
+        }
+
+        addSongForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('songTitle').value;
+            const artist = document.getElementById('artist').value;
+            const file = document.getElementById('audioFile').files[0];
+
+            if (file) {
+                const url = URL.createObjectURL(file);
+                const newSong = document.createElement('div');
+                newSong.className = 'song-item';
+                newSong.innerHTML = `
+                    <div>
+                        <h3>${title}</h3>
+                        <p>Artist: ${artist}</p>
+                    </div>
+                    <button onclick="playSong('${url}')">Play</button>
+                `;
+                songList.appendChild(newSong);
+                addSongForm.reset();
+            }
+        });
+    </script>
+</body>
+</html>
