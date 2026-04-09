@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; media-src 'self' blob:">
     <title>My Songs Website</title>
     <style>
         body {
@@ -72,58 +73,27 @@
                 <h3>Song Title 1</h3>
                 <p>Artist: Artist Name</p>
             </div>
-            <button onclick="playSong('song1.mp3')">Play</button>
+            <button data-src="song1.mp3">Play</button>
         </div>
         <div class="song-item">
             <div>
                 <h3>Song Title 2</h3>
                 <p>Artist: Another Artist</p>
             </div>
-            <button onclick="playSong('song2.mp3')">Play</button>
+            <button data-src="song2.mp3">Play</button>
         </div>
     </div>
 
     <form id="addSongForm">
         <h2>Add a New Song</h2>
-        <input type="text" id="songTitle" placeholder="Song Title" required>
-        <input type="text" id="artist" placeholder="Artist" required>
+        <input type="text" id="songTitle" placeholder="Song Title" maxlength="100" pattern="[A-Za-z0-9 .,'\-!?&()]+" title="Letters, numbers, spaces, and basic punctuation only" required>
+        <input type="text" id="artist" placeholder="Artist" maxlength="100" pattern="[A-Za-z0-9 .,'\-!?&()]+" title="Letters, numbers, spaces, and basic punctuation only" required>
         <input type="file" id="audioFile" accept="audio/*" required>
         <button type="submit">Add Song</button>
     </form>
 
     <audio id="audioPlayer" controls style="display:none;"></audio>
 
-    <script>
-        const audioPlayer = document.getElementById('audioPlayer');
-        const songList = document.getElementById('songList');
-        const addSongForm = document.getElementById('addSongForm');
-
-        function playSong(src) {
-            audioPlayer.src = src;
-            audioPlayer.play();
-        }
-
-        addSongForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const title = document.getElementById('songTitle').value;
-            const artist = document.getElementById('artist').value;
-            const file = document.getElementById('audioFile').files[0];
-
-            if (file) {
-                const url = URL.createObjectURL(file);
-                const newSong = document.createElement('div');
-                newSong.className = 'song-item';
-                newSong.innerHTML = `
-                    <div>
-                        <h3>${title}</h3>
-                        <p>Artist: ${artist}</p>
-                    </div>
-                    <button onclick="playSong('${url}')">Play</button>
-                `;
-                songList.appendChild(newSong);
-                addSongForm.reset();
-            }
-        });
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
