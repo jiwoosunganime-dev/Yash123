@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Songs Website</title>
     <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -91,7 +94,7 @@
         <button type="submit">Add Song</button>
     </form>
 
-    <audio id="audioPlayer" controls style="display:none;"></audio>
+    <audio id="audioPlayer" controls style="display:none; margin:20px auto; max-width:800px;"></audio>
 
     <script>
         const audioPlayer = document.getElementById('audioPlayer');
@@ -100,6 +103,7 @@
 
         function playSong(src) {
             audioPlayer.src = src;
+            audioPlayer.style.display = 'block';
             audioPlayer.play();
         }
 
